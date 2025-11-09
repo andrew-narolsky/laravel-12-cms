@@ -14,4 +14,14 @@
             <i class="mdi mdi-account menu-icon"></i>
         </a>
     </li>
+
+    <li class="nav-item sidebar-actions">
+        <span class="nav-link fw-bold">MAINTENANCE</span>
+    </li>
+    <li class="nav-item @ifroute('logs') active @endif">
+        <a class="nav-link" href="{{ route('logs') }}">
+            <span class="menu-title">Logs</span>
+            <i class="mdi mdi-alert-outline menu-icon"></i>
+        </a>
+    </li>
 </ul>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\FrontEndController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 
 Route::get('/', [FrontEndController::class, 'show']);
 
@@ -23,4 +24,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
     Route::post('/attachments/upload', [AttachmentController::class, 'upload'])->name('attachments.upload');
     Route::delete('/attachments/{attachment}', [AttachmentController::class, 'destroy'])->name('attachments.destroy');
+
+    // Logs
+    Route::get('/logs', [LogViewerController::class, 'index'])->name('logs');
 });
