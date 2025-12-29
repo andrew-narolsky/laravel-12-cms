@@ -1,3 +1,4 @@
+import SweetAlert from "./SweetAlert.js";
 export default class FormHelper {
     static send(form) {
         form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
@@ -8,15 +9,7 @@ export default class FormHelper {
 
         return axios.post(url, data)
             .then((response) => {
-                Swal.fire({
-                    toast: true,
-                    icon: 'success',
-                    title: response.data.message,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                });
+                SweetAlert.toast({ icon: 'success', title: response.data.message });
 
                 if (response.data.redirect) {
                     setTimeout(() => {
@@ -31,15 +24,7 @@ export default class FormHelper {
                     const errors = error.response.data.errors;
                     const generalMessage = error.response.data.message;
 
-                    Swal.fire({
-                        toast: true,
-                        icon: 'error',
-                        html: generalMessage,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 5000,
-                        timerProgressBar: true,
-                    });
+                    SweetAlert.toast({ icon: 'error', html: generalMessage });
 
                     for (const key in errors) {
                         if (errors.hasOwnProperty(key)) {
@@ -86,28 +71,21 @@ export default class FormHelper {
         return instances;
     }
 
-    static deleteElement(element, title = 'Are you sure?', text = 'This action cannot be undone!') {
-        Swal.fire({
-            title: title,
-            text: text,
-            icon: 'warning',
-            showCancelButton: true,
+    static async deleteElement(element) {
+        if (await SweetAlert.confirm({
+            title: 'Are you sure?',
+            text: 'This action cannot be undone!',
             confirmButtonText: 'Yes, delete it',
-            cancelButtonText: 'Cancel',
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#6c757d',
-            reverseButtons: true,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const formId = element.getAttribute('form');
-                const form = document.getElementById(formId);
+            icon: 'warning',
+        })) {
+            const formId = element.getAttribute('form');
+            const form = document.getElementById(formId);
 
-                if (form) {
-                    form.submit();
-                } else {
-                    console.error(`Form with id "${formId}" not found.`);
-                }
+            if (form) {
+                form.submit();
+            } else {
+                console.error(`Form with id "${formId}" not found.`);
             }
-        });
+        }
     }
 }

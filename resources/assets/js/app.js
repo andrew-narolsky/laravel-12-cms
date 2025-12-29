@@ -2,19 +2,14 @@ import axios from 'axios';
 window.axios = axios;
 
 import * as bootstrap from 'bootstrap';
-
-import 'sweetalert2/dist/sweetalert2.min.css';
-import Swal from 'sweetalert2';
-window.Swal = Swal;
-
 import SlimSelect from 'slim-select'
 import 'slim-select/styles';
-window.SlimSelect = SlimSelect;
+import FormHelper from "./utils/FormHelper.js";
+import FileUploader from "./utils/FileUploader.js";
 
-import FormHelper from './utils/FormHelper';
 window.FormHelper = FormHelper;
-
-import FileUploader from "./utils/FileUploader";
+window.SlimSelect = SlimSelect;
+window.FileUploader = FileUploader;
 
 const modules = import.meta.glob('./modules/*.js', { eager: true });
 Object.entries(modules).forEach(([path, module]) => {

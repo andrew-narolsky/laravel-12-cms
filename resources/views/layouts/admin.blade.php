@@ -44,7 +44,7 @@
         @stack('modals')
     </div>
 
-@vite(['resources/assets/js/main.js'])
+@vite(['resources/assets/js/app.js'])
 
 @yield('js')
 

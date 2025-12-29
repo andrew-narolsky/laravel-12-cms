@@ -10,7 +10,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/assets/vendors/mdi/css/materialdesignicons.min.css',
-                'resources/assets/js/main.js',
+                'resources/assets/js/app.js',
                 'resources/assets/css/custom.css',
                 'resources/assets/css/styles.css',
             ],

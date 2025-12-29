@@ -1,5 +1,3 @@
-version: '3.5'
-
 services:
 
 ### Workspace Utilities Container ###########################
@@ -34,7 +32,7 @@ services:
 ### Nginx Server Container ##################################
 
     nginx:
-        image: xpert13/nginx:v.1.4
+        image: xpert13/nginx:v.1.5
         restart: unless-stopped
         volumes:
             - ../:/var/www:cached
@@ -53,7 +51,7 @@ services:
 ### MariaDB Container #######################################
 
     mariadb:
-      image: xpert13/mariadb:v.1.0
+      image: xpert13/mariadb:v.1.1
       restart: unless-stopped
       volumes:
         - ${DATA_SAVE_PATH}/mariadb:/var/lib/mysql

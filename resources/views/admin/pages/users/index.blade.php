@@ -39,7 +39,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
-                                <th> </th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,12 +62,12 @@
                                         @endif
                                     </td>
                                     <td class="d-flex flex-row justify-content-end">
-                                        <a href="{{ route('users.edit', $user) }}" type="button" class="btn btn-inverse-info btn-icon">
+                                        <a href="{{ route('users.edit', $user) }}" type="button" class="btn btn-info btn-icon">
                                             <i class="mdi mdi-pencil"></i>
                                         </a>
                                         @if($currentUser->id != $user->id)
                                             <button type="button"
-                                                    class="btn btn-inverse-danger btn-icon"
+                                                    class="btn btn-danger btn-icon"
                                                     onclick="FormHelper.deleteElement(this)"
                                                     form="delete-user-{{ $user->id }}">
                                                 <i class="mdi mdi-delete"></i>

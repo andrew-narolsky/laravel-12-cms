@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AttachmentController;
+use App\Http\Controllers\Admin\BackupController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\FrontEndController;
@@ -27,4 +28,14 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
     // Logs
     Route::get('/logs', [LogViewerController::class, 'index'])->name('logs');
+    // Backup
+    Route::group(['prefix' => 'backups'], function () {
+        Route::get('/download/{backup}', [BackupController::class, 'downloadBackup'])->name('backups.download');
+        Route::get('/', [BackupController::class, 'index'])->name('backups.index');
+        Route::post('/make', [BackupController::class, 'make'])->name('backup.make');
+        Route::delete('/remove', [BackupController::class, 'remove'])->name('backup.remove');
+        Route::post('/restore', [BackupController::class, 'restore'])->name('backup.restore');
+        Route::post('/upload', [BackupController::class, 'upload'])->name('backup.upload');
+        Route::post('/get-job-status.json', [BackupController::class, 'getJobStatus']);
+    });
 });

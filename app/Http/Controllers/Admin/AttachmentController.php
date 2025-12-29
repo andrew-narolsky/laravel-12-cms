@@ -44,7 +44,7 @@ class AttachmentController extends Controller
 
         return response()->json([
             'success' => true,
-            'attachment' => $attachment,
+            'id' => $attachment->id,
             'url' => asset($path),
         ]);
     }

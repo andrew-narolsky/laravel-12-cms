@@ -43,8 +43,11 @@
                                 @include('admin.partials.uploader', [
                                     'module' => $user::MODULE_NAME,
                                     'moduleId' => $user->id ?? null,
-                                    'attachment' => $user->avatar->id ?? null,
-                                    'file' => $user->avatar?->getFileUrl() ?? null
+                                    'id' => $user->avatar->id ?? null,
+                                    'file' => $user->avatar?->getFileUrl() ?? null,
+                                    'allowed' => 'images',
+                                    'uploadUrl' => route('attachments.upload'),
+                                    'deleteUrl' => route('attachments.destroy', ['attachment' => '__ID__']),
                                 ])
                             </div>
                         @endif

@@ -1,8 +1,10 @@
 <div class="file-uploader @if($file) loaded @endif"
-     data-upload-url="{{ route('attachments.upload') }}"
-     data-delete-url="{{ route('attachments.destroy', ['attachment' => '__ID__']) }}"
+     data-upload-url="{{ $uploadUrl }}"
+     data-delete-url="{{ $deleteUrl }}"
      data-module="{{ $module }}"
-     data-module-id="{{ $moduleId ?? '' }}">
+     data-module-id="{{ $moduleId ?? '' }}"
+     @if(!empty($allowed)) data-allowed="{{ $allowed }}" @endif
+     @if(!empty($maxSize)) data-max-size="{{ $maxSize }}" @endif>
     <div class="drop-zone">
         <span class="text">
             <i class="mdi mdi-upload"></i>
@@ -11,7 +13,7 @@
     </div>
     <div class="preview-list">
         @if($file)
-            <div class="preview-item uploaded" data-id="{{ $attachment }}" data-url="{{ $file }}">
+            <div class="preview-item uploaded" data-id="{{ $id }}" data-url="{{ $file }}">
                 <div class="thumb">
                     <img src="{{ $file }}" alt="{{ $module }}" loading="lazy">
                 </div>

@@ -1,3 +1,5 @@
+import SweetAlert from "./SweetAlert.js";
+
 export default class FileUploader {
     constructor(element) {
         this.wrapper = element;
@@ -9,6 +11,30 @@ export default class FileUploader {
         this.module = element.dataset.module;
         this.moduleId = element.dataset.moduleId;
         this.csrf = document.querySelector('meta[name="csrf-token"]').content;
+
+        this.mimeGroups = {
+            images: [
+                'image/jpeg',
+                'image/png',
+                'image/webp',
+                'image/gif'
+            ],
+            archives: [
+                'application/gzip',
+                'application/x-gzip',
+            ],
+            docs: ['application/pdf'],
+        };
+
+        this.allowedTypes = element.dataset.allowed
+            ? element.dataset.allowed.split(',').flatMap(type =>
+                this.mimeGroups[type] ?? [type]
+            )
+            : [];
+
+        this.maxSize = element.dataset.maxSize
+            ? parseInt(element.dataset.maxSize) * 1024 * 1024
+            : 10 * 1024 * 1024;
 
         this.initEvents();
     }
@@ -54,10 +80,18 @@ export default class FileUploader {
 
     async handleFiles(files) {
         for (const file of files) {
-            if (file.size > 10 * 1024 * 1024) {
-                alert(`❌ ${file.name} more than 10MB`);
+
+            if (this.allowedTypes.length && !this.allowedTypes.includes(file.type)) {
+                SweetAlert.toast({ icon: 'error', title: 'Unsupported file type' });
                 continue;
             }
+
+            if (file.size > this.maxSize) {
+                const maxMb = (this.maxSize / (1024 * 1024)).toFixed(0);
+                SweetAlert.toast({ icon: 'error', title: 'File more than ' + maxMb + 'MB' });
+                continue;
+            }
+
             await this.uploadFile(file);
         }
     }
@@ -86,13 +120,24 @@ export default class FileUploader {
             });
 
             const res = response.data;
-            preview.dataset.id = res.attachment.id;
+            preview.dataset.id = res.id;
             preview.dataset.url = res.url;
             preview.querySelector('.progress').style.width = '100%';
+
+            if (res.redirect) {
+                SweetAlert.toast({ icon: 'success', title: 'File successfully uploaded' });
+                setTimeout(() => window.location.reload(), 3000);
+            }
             setTimeout(() => preview.classList.add('uploaded'), 1000);
         } catch (error) {
-            console.error('Upload failed:', error);
+            SweetAlert.toast({ icon: 'error', title: error.response.data.message ?? 'Upload failed' });
             preview.classList.add('error');
+
+            setTimeout(() => {
+                this.wrapper.classList.remove('loaded');
+                preview.remove();
+                this.input.value = '';
+            }, 1000);
         }
     }
 
@@ -103,7 +148,7 @@ export default class FileUploader {
             <div class="thumb">
                 ${file.type.startsWith('image')
             ? `<img src="${URL.createObjectURL(file)}" alt="">`
-            : `<div class="file-icon">📄</div>`}
+            : `<div class="file-icon"><i class="mdi mdi-zip-box"></i></div>`}
             </div>
             <div class="info">
                 <button class="copy-btn btn btn-info">
@@ -161,6 +206,7 @@ export default class FileUploader {
 
             this.wrapper.classList.remove('loaded');
             preview.remove();
+            this.input.value = '';
         } catch (error) {
             console.error('Delete failed:', error);
         }
