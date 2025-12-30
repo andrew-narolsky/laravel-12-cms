@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AttachmentController;
 use App\Http\Controllers\Admin\BackupController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\FrontEndController;
 use Illuminate\Support\Facades\Auth;
@@ -14,8 +15,8 @@ Route::get('/', [FrontEndController::class, 'show']);
 Route::group(['prefix' => 'auth'], function () {
     Auth::routes([
         'register' => false,
-        'reset'    => true,
-        'verify'   => false,
+        'reset' => true,
+        'verify' => false,
     ]);
 });
 
@@ -38,4 +39,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::post('/upload', [BackupController::class, 'upload'])->name('backup.upload');
         Route::post('/get-job-status.json', [BackupController::class, 'getJobStatus']);
     });
+    // Setting
+    Route::resource('/settings', SettingsController::class)->except(['show']);
 });

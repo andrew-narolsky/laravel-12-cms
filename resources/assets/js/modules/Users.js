@@ -1,19 +1,7 @@
-export default class Users {
+import BaseModel from '../core/BaseModel';
 
-    form = document.getElementById('users-form');
-    updateButton = document.querySelector('#update');
-
+export default class Users extends BaseModel {
     constructor() {
-        FormHelper.initSelects(this.form, { showSearch: false });
-        this.initEvents();
-    }
-
-    initEvents() {
-        this.updateButton.addEventListener('click', this.onUpdateButtonClick.bind(this));
-    }
-
-    onUpdateButtonClick(e) {
-        e.preventDefault();
-        FormHelper.send(this.form);
+        super('users-form');
     }
 }

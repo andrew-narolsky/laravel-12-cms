@@ -4,8 +4,8 @@ window.axios = axios;
 import * as bootstrap from 'bootstrap';
 import SlimSelect from 'slim-select'
 import 'slim-select/styles';
-import FormHelper from "./utils/FormHelper.js";
-import FileUploader from "./utils/FileUploader.js";
+import FormHelper from './utils/FormHelper.js';
+import FileUploader from './utils/FileUploader.js';
 
 window.FormHelper = FormHelper;
 window.SlimSelect = SlimSelect;

@@ -18,6 +18,12 @@
     <li class="nav-item sidebar-actions">
         <span class="nav-link fw-bold">MAINTENANCE</span>
     </li>
+    <li class="nav-item @ifroute('settings.index') active @endifroute">
+        <a class="nav-link" href="{{ route('settings.index') }}">
+            <span class="menu-title">Setting</span>
+            <i class="mdi mdi-image-filter-vintage menu-icon"></i>
+        </a>
+    </li>
     <li class="nav-item @ifroute('backups.index') active @endifroute">
         <a class="nav-link" href="{{ route('backups.index') }}">
             <span class="menu-title">Backups</span>
